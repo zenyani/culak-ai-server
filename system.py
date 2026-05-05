@@ -1,11 +1,11 @@
 import requests
-from Flask import Flask, request, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app) 
 
-# Твой рабочий ключ
+# Твой API ключ
 API_KEY = "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"
 
 @app.route('/ask', methods=['POST', 'OPTIONS'])
@@ -22,7 +22,7 @@ def ask_ai():
     }
 
     payload = {
-        "model": "llama-3.1-8b-instant",  # Актуальная модель
+        "model": "llama-3.1-8b-instant",  # Исправленная модель
         "messages": [
             {"role": "system", "content": "Ты — CULAK AI, дерзкий и крутой помощник. Отвечай коротко."},
             {"role": "user", "content": user_text}
@@ -31,8 +31,7 @@ def ask_ai():
 
     try:
         response = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
-        data = response.json()
-        return jsonify(data)
+        return jsonify(response.json())
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
